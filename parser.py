@@ -84,10 +84,11 @@ def np_chunk(tree):
     noun phrases as subtrees.
     """
     chunks_response = []
+    # get all NP subtrees from original tree
     for subtree in tree.subtrees(lambda t: t.label() == 'NP'):
-        # subtrees found that are not np
-        print(subtree)
+        # For each NP, get a list of all subtrees that are NP, ideally 0 to consider it a chunk
         np_subtrees = list(subtree.subtrees(lambda t: t.label() == 'NP'))
+        # Function subtrees finds itself as NP always, so we can either remove it or if size is 1 we know its itself
         np_subtrees.remove(subtree)
         if len(np_subtrees) == 0:
             chunks_response.append(subtree)
