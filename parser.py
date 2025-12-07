@@ -87,9 +87,8 @@ def np_chunk(tree):
     # get all NP subtrees from original tree
     for subtree in tree.subtrees(lambda t: t.label() == 'NP'):
         # For each NP, get a list of all subtrees that are NP, ideally 0 to consider it a chunk
-        np_subtrees = list(subtree.subtrees(lambda t: t.label() == 'NP'))
-        # Function subtrees finds itself as NP always, so we can either remove it or if size is 1 we know its itself
-        np_subtrees.remove(subtree)
+        # Function subtrees() always finds itself as NP, so we also forcefully ignore it
+        np_subtrees = list(subtree.subtrees(lambda t: t.label() == 'NP' and t != subtree))
         if len(np_subtrees) == 0:
             chunks_response.append(subtree)
     return chunks_response
