@@ -22,7 +22,6 @@ NP -> N | Det NP | Det N P NP
 grammar = nltk.CFG.fromstring(NONTERMINALS + TERMINALS)
 parser = nltk.ChartParser(grammar)
 
-
 def main():
 
     # If filename specified, read sentence from file
@@ -63,7 +62,18 @@ def preprocess(sentence):
     and removing any word that does not contain at least one alphabetic
     character.
     """
-    raise NotImplementedError
+    sentence_lwc = str.lower(sentence)
+    nltk.download('punkt_tab')
+    tokenized_sentence = nltk.word_tokenize(sentence_lwc)
+    print(tokenized_sentence)
+    # filter words
+    filtered_words = []
+    for word in tokenized_sentence:
+        # if any char is alpha we keep it
+        if any(char.isalpha() for char in word):
+            filtered_words.append(word)
+
+    return filtered_words
 
 
 def np_chunk(tree):
@@ -73,7 +83,7 @@ def np_chunk(tree):
     whose label is "NP" that does not itself contain any other
     noun phrases as subtrees.
     """
-    raise NotImplementedError
+    return []
 
 
 if __name__ == "__main__":
