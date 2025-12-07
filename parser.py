@@ -83,7 +83,15 @@ def np_chunk(tree):
     whose label is "NP" that does not itself contain any other
     noun phrases as subtrees.
     """
-    return []
+    chunks_response = []
+    for subtree in tree.subtrees(lambda t: t.label() == 'NP'):
+        # subtrees found that are not np
+        print(subtree)
+        np_subtrees = list(subtree.subtrees(lambda t: t.label() == 'NP'))
+        np_subtrees.remove(subtree)
+        if len(np_subtrees) == 0:
+            chunks_response.append(subtree)
+    return chunks_response
 
 
 if __name__ == "__main__":
